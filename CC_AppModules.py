@@ -89,7 +89,7 @@ def input_parameters(index):
                 style={'width': '80px', 'display': 'inline-block', 'margin': '5px'}
             ),
             dcc.Input(
-                id='input-'+str(index), type='float', 
+                id='input-'+str(index), type='text', 
                 value = DefaultValue[Par],
                 style={'width': '80px', 'display': 'inline-block', 'margin': '5px', 'text-align': 'right'}
             ),
