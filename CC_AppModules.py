@@ -5,6 +5,8 @@ import dash_html_components as html
 import plotly.graph_objects as go
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
+from CC_Master import Master
 
 def remove_temp():
     for file in glob.glob('./testfolder'):
@@ -22,17 +24,12 @@ def generate_table(df):
                 ]) for i in range(len(df))
             ])
         ],
-        style={'margin': '50px'}
+        style={'margin': '50px',  'font-size': '12px', 'text-align':'center'}
     )
 
 def generate_plot(df, y):
 
     x_scat, y_scat = df.index.values[1:], df[y].values[1:]
-
-    if y=='Del':
-        y='\u03B4'
-    elif y=='dDel/dt':
-        y='d\u03B4/dt'
 
     layout = go.Layout(
         plot_bgcolor="#FFF",
@@ -49,11 +46,13 @@ def generate_plot(df, y):
             linewidth=2,
             gridcolor="#BCCCDC",
             zeroline = False
-        )
+        ),
+        width = 500,
+        height = 500
     )
 
     fig = go.Figure(
-        data = go.Scatter(x=x_scat, y=y_scat, marker_color='green', mode='lines+markers'),
+        data = go.Scatter(x=x_scat, y=y_scat, marker_color='darkslategray', mode='lines+markers'),
         layout = layout
     )
     return fig
@@ -81,6 +80,7 @@ def input_parameters(index):
         'Tₒᵢ'   :   46,
         'Diffusion rate calculation method'   :   'Wilke-Chang'
     }
+
     Par = Parameter[index]
     if index!=7:
         return dbc.ModalBody([
@@ -119,17 +119,127 @@ def input_parameters(index):
             )
         ])
 
-def save_file(name, content):
-    data = content.encode("utf8").split(b";base64,")[1]
-    with open(os.path.join('./temp', name), "wb") as fp:
-        fp.write(base64.decodebytes(data))
+def file_upload(app, files_upload, body):
+    @app.callback(
+        Output(body, 'children'),
+        [Input(files_upload, 'filename'), Input(files_upload, 'contents')]
+    )
+    def file_upload(filenames, filecontents):
+        if filenames is not None and filecontents is not None:
+            for name, content in zip(filenames, filecontents):
+                data = content.encode("utf8").split(b";base64,")[1]
+                with open(os.path.join('./temp', name), "wb") as fp:
+                    fp.write(base64.decodebytes(data))
 
-def uploaded_files():
-    files = []
-    for filename in os.listdir('./temp'):
-        path = os.path.join('./temp', filename)
-        if os.path.isfile(path):
-            files.append(filename)
-    return files
+        files = []
+        for filename in os.listdir('./temp'):
+            path = os.path.join('./temp', filename)
+            if os.path.isfile(path):
+                files.append(filename)
 
+        if len(files)==0:
+            file_list = [
+                html.Content(html.B('No files yet! Please use "Select TAB, WAX, Dataset Files"'))
+            ]
+        else:
+            file_list = [html.Li(html.I(file)) for file in files]
+        return file_list
 
+def open_modal(app, modal, button_open, button_close):
+    @app.callback(
+        Output(modal, 'is_open'),
+        [Input(button_open, 'n_clicks'), Input(button_close, 'n_clicks')],
+        [State(modal, 'is_open')]
+    )
+    def toggle_modal(n1,n2, is_open):
+        if n1 or n2:
+            return not is_open
+        return is_open
+
+def enable_printout(app):
+    @app.callback(
+        [Output('open-printout', 'disabled'), Output('printout-display', 'children')],
+        [Input('run-button', 'n_clicks')],
+        [State('printout-checklist', 'value'),State('open-printout', 'disabled')]
+    )
+    def tick_printoout(run, tick, printout):
+        final_text = ''''''
+        if run:
+            if tick:
+                printout = False
+                text_markdown = '\t'
+                if os.path.isfile('./printout.txt'):
+                    with open('./printout.txt') as handle:
+                        for line in handle.read():
+                            text_markdown += line
+                final_text = '''{}'''.format(text_markdown)
+            else:
+                printout = True
+
+        return printout, final_text
+
+def tabs_display(app):
+    @app.callback(
+        Output('tabs', 'children'),
+        [
+            Input('printout-checklist', 'value'),
+            Input('run-button', 'n_clicks')
+        ],
+        [
+            State('input-0', 'value'),
+            State('input-1', 'value'),
+            State('input-2', 'value'),
+            State('input-3', 'value'),
+            State('input-4', 'value'),
+            State('input-5', 'value'),
+            State('input-6', 'value'),
+            State('input-7', 'value')
+        ]
+    )
+    def toggle_run(tick, run, C1, C2, C3, DI, MO, PIO, TOI, DowMethod):
+        children = []
+        if run:
+
+            files = []
+            for filename in os.listdir('./temp'):
+                path = os.path.join('./temp', filename)
+                if os.path.isfile(path):
+                    files.append(filename)
+            datafiles = {
+                    ftype:'./temp/'+f 
+                    for ftype in ['tab','wax','xlsx'] 
+                    for f in files 
+                    if f.endswith(ftype)
+            }
+            if len(datafiles) == 3:
+                L1 = Master(
+                    datafiles, 
+                    float(C1), 
+                    float(C2), 
+                    float(C3), 
+                    float(DI), 
+                    float(MO), 
+                    float(PIO), 
+                    float(TOI), 
+                    DowMethod, 
+                    tick
+                )
+                dfIO = L1.dfOutputs
+                fig1 = generate_plot(dfIO,'\u03B4 (mm)')
+                fig2 = generate_plot(dfIO,'Fw (Frac.)')
+                fig3 = generate_plot(dfIO,'d\u03B4/dt (mm/s)')
+
+                children1 = [generate_table(dfIO)]
+                children2 = [html.Div(dcc.Graph(figure=fig1))]
+                children3 = [html.Div(dcc.Graph(figure=fig2))]
+                children4 = [html.Div(dcc.Graph(figure=fig3))]
+
+                children = [
+                dcc.Tab(children1, label='Inputs / Results', value='tab-1', id='tab-1'),
+                dcc.Tab(children2, label='\u03B4', value='tab-2',  id='tab-2'),
+                dcc.Tab(children3, label='Fw', value='tab-3', id='tab-3') ,
+                dcc.Tab(children4, label='d\u03B4/dt', value='tab-4', id='tab-4') 
+                ]
+
+        return children
+                

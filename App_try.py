@@ -8,8 +8,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 import plotly.express as px
 import plotly.graph_objects as go
-import CC_AppModules as CCA
-from CC_Master import Master
+import CC_AppModules as cca
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -42,25 +41,46 @@ app.layout = html.Div([
             ),
 
             html.Div([
+                dbc.Button('Uploaded file list', 
+                    id='open-file-list', 
+                    style={'background-color':'darkslategray'}
+                ),
+                dbc.Modal([
+                    dbc.ModalHeader('Uploaded files :'),
+                    dbc.ModalBody(html.Div(
+                        id='body-file-list',
+                        style={'padding': '20px 0px 5px 20px'}
+                    )),
+                    dbc.ModalFooter(
+                        dbc.Button('Close', 
+                            id='close-file-list', className='ml-auto'
+                        )
+                    )
+                ], 
+                id='modal-file-list',size='lg')],
+                style=buttonstyle
+            ),
+
+            html.Div([
                 dbc.Button('Open user defined inputs', 
-                    id='User-defined-inputs',
+                    id='open-user-inputs',
                     style={'background-color':'darkslategray'}
                 ),
                 dbc.Modal([
                     dbc.ModalHeader(
                         'Parameters :'
                     ),
-                    CCA.input_parameters(0),
-                    CCA.input_parameters(1),
-                    CCA.input_parameters(2),
-                    CCA.input_parameters(3),
-                    CCA.input_parameters(4),
-                    CCA.input_parameters(5),
-                    CCA.input_parameters(6),
-                    CCA.input_parameters(7),
+                    cca.input_parameters(0),
+                    cca.input_parameters(1),
+                    cca.input_parameters(2),
+                    cca.input_parameters(3),
+                    cca.input_parameters(4),
+                    cca.input_parameters(5),
+                    cca.input_parameters(6),
+                    cca.input_parameters(7),
                     dbc.ModalFooter(
                         dbc.Button(
-                            'Close', id='close-popup', className='ml-auto'
+                            'Close', id='close-user-inputs', className='ml-auto'
                         )
                     )
                 ], 
@@ -69,26 +89,8 @@ app.layout = html.Div([
             ),
 
             html.Div([
-                dbc.Button('Uploaded file list', 
-                    id='file-list', disabled=True,
-                    style={'background-color':'darkslategray'}
-                ),
-                dbc.Modal([
-                    dbc.ModalHeader('Uploaded file list :'),
-                    dbc.ModalBody(html.Div(id='filelist-display')),
-                    dbc.ModalFooter(
-                        dbc.Button('Close', 
-                            id='close-popup-filelist', className='ml-auto'
-                        )
-                    )
-                ], 
-                id='modal-filelist',size='lg')],
-                style=buttonstyle
-            ),
-
-            html.Div([
                 dbc.Button('Open printout', 
-                    id='printout-output', disabled=True,
+                    id='open-printout', disabled=True,
                     style={'background-color':'darkslategray'}
                 ),
                 dbc.Modal([
@@ -96,7 +98,7 @@ app.layout = html.Div([
                     dbc.ModalBody(html.Div(id='printout-display')),
                     dbc.ModalFooter(
                         dbc.Button('Close', 
-                            id='close-popup-printout', className='ml-auto'
+                            id='close-printout', className='ml-auto'
                         )
                     )
                 ], 
@@ -110,7 +112,7 @@ app.layout = html.Div([
                         options=[{'label' : '', 'value':'track'}],
                         value=[], style={'display':'inline-block'},
                     ),
-                    html.Content(html.B(' Keep calculations record'),
+                    html.Content(html.B(' Keep printout'),
                         style={'color':'darkslategray'}
                     )
                 ],
@@ -131,47 +133,35 @@ app.layout = html.Div([
         }
     ),
 
-    html.Div([
-        html.Content(id='body-text')],
+    html.Div(
+        [
+            dcc.Tabs(id='tabs', value='tab-1', 
+                colors={
+                    "border":'white',
+                    "primary": 'bisque',
+                    "background": 'cornsilk'
+                },
+                style={'align-items': 'center'}
+            )
+        ],
         style={
-            'padding': '20px 0px 5px 20px',
-            'font-size':'30px', 
-            'text-align': 'center'
+            'padding': '20px 20px 5px 20px',
+            'font-size':'15px', 
+            'text-align': 'center',
+            'font-family': 'Georgia',
+            'color': 'darkslategray'
         }
     ),
 
 ])
 
-@app.callback(
-    Output('modal-inputs', 'is_open'),
-    [Input('User-defined-inputs', 'n_clicks'), Input('close-popup', 'n_clicks')],
-    [State('modal-inputs', 'is_open')]
-)
-def toggle_modal(n1,n2, is_open):
-    if n1 or n2:
-        return not is_open
-    return is_open
+cca.file_upload(app, 'files-upload', 'body-file-list')
+cca.open_modal(app, 'modal-file-list', 'open-file-list', 'close-file-list')
+cca.open_modal(app, 'modal-inputs', 'open-user-inputs', 'close-user-inputs')
+cca.open_modal(app, 'modal-printout', 'open-printout', 'close-printout')
+cca.enable_printout(app)
+cca.tabs_display(app)
 
-@app.callback(
-    Output('modal-printout', 'is_open'),
-    [
-        Input('printout-output', 'n_clicks'), 
-        Input('close-popup-printout', 'n_clicks')
-    ],
-    [State('modal-printout', 'is_open')]
-)
-def toggle_modal2(n1, n2, is_open):
-    if n1 or n2:
-        return not is_open
-    return is_open
-
-@app.callback(
-    Output('body-text', 'children'),
-    [Input('run-button', 'n_clicks')],
-)
-def toggle_run(n_clicks):
-    if n_clicks:
-        return 'is_open'
 
 if __name__ == '__main__':
     app.run_server(debug=True)
