@@ -11,7 +11,7 @@ class Master():
     def __init__(
         self, Files, 
         C1=15, C2=0.055, C3=1.4, 
-        DI=0.044, MO=0.50369, 
+        DI=0.0446, MO=0.50369, 
         PIO= 101325, TOI=46,
         DowMethod = 'Wilke-Chang', track=False
     
@@ -76,7 +76,7 @@ class Master():
 
         if func=='VO':
             self.Val['QO'] = self.Val['MO'] / self.Val['RHOO']
-            self.Val['VO'] = self.Val['QO'] / (math.pi*math.pow(self.Val['DI']/2,2))
+            self.Val['VO'] = self.Val['QO'] / (math.pi*math.pow(self.Val['DW']/2,2))
             self.print_this(func)
 
         elif func=='DELD':
@@ -128,6 +128,7 @@ class Master():
 
         elif func=='DELTA':
             self.Val['DELTA'] = self.Val['DELTA_TMINUS1'] + (self.Val['DDEL_DT'] * (10*60)) # dt = 10 min x 60 = 600 sec
+            # self.Val['DELTA'] = self.Val['DELTA_TMINUS1'] + (self.Val['DDEL_DT']) # dt = 10 min x 60 = 600 sec
             self.print_this(func)
 
     def Get(self, var):
@@ -208,11 +209,15 @@ class Master():
         Unit = CCD.Abbreviations('Unit')
         self.dfOutputs.loc[self.Val['TIME'], 'Time'+' ('+Unit['TIME']+')'] = self.Val['TIME']
         self.dfOutputs.loc[self.Val['TIME'], 'Tw'+' ('+Unit['TW']+')']     = self.Val['TW']
+        self.dfOutputs.loc[self.Val['TIME'], 'Vo'+' ('+Unit['VO']+')']     = np.round(self.Val['VO'],5)
+        self.dfOutputs.loc[self.Val['TIME'], 'RhoWw'+' ('+Unit['RHOWW']+')'] = np.round(self.Val['RHOWW'],3)
+        self.dfOutputs.loc[self.Val['TIME'], 'MVWW'+' ('+Unit['MVWW']+')'] = np.round(self.Val['MVWW'],3)
+        self.dfOutputs.loc[self.Val['TIME'], 'MWOW'+' ('+Unit['MWOW']+')']     = CCD.round_sig(self.Val['MWOW'],5)
         self.dfOutputs.loc[self.Val['TIME'], '\u03B4d'+' (mm)']            = np.round(self.Val['DELD']*1000,3)
         self.dfOutputs.loc[self.Val['TIME'], 'Nsr']                        = np.round(self.Val['NSR'],3)
         self.dfOutputs.loc[self.Val['TIME'], 'Reow']                       = np.round(self.Val['REOW'],3)
         self.dfOutputs.loc[self.Val['TIME'], 'Fo'+' ('+Unit['FO']+')']     = np.round(self.Val['FO'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'Fw'+' ('+Unit['FW']+')']     = np.round(self.Val['FW'],3)
+        self.dfOutputs.loc[self.Val['TIME'], 'Fw'+' ('+Unit['FW']+')']     = np.round(self.Val['FW'],6)
         self.dfOutputs.loc[self.Val['TIME'], '\u03C0₁']                    = np.round(self.Val['PY1'],3)
         self.dfOutputs.loc[self.Val['TIME'], '\u03C0₂']                    = np.round(self.Val['PY2'],3)
         self.dfOutputs.loc[self.Val['TIME'], 'Dow'+' (m²/s)']              = CCD.round_sig(self.Val['DOW'],4)
