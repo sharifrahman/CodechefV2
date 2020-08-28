@@ -13,14 +13,19 @@ def remove_temp():
         os.remove(file)
 
 def generate_table(df):
+    Default_columns = [
+        'Time','Tw','dw','δd',
+        'Reow','Fo','Fw','Nsr','MVww','π1','π2',
+        'Dow','dC/dT','dT/dr','dδ/dt','δ'
+    ]
     return html.Table(
         [
             html.Thead(
-                html.Tr([html.Th(col) for col in df.columns])
+                html.Tr([html.Th(col) for col in Default_columns])
             ),
             html.Tbody([
                 html.Tr([
-                    html.Td(df.iloc[i][col]) for col in df.columns
+                    html.Td(df.iloc[i][col]) for col in Default_columns
                 ]) for i in range(len(df))
             ])
         ],
@@ -30,25 +35,26 @@ def generate_table(df):
 def generate_plot(df, y):
 
     x_scat, y_scat = df.index.values[1:], df[y].values[1:]
+    # x_scat, y_scat = df.index.values, df[y].values
 
     layout = go.Layout(
         plot_bgcolor="#FFF",
         xaxis=dict(
-            title=df.index.name+' (min)',
+            title=df.index.name + ' ({})'.format(df.index.values[0]),
             linecolor="#BCCCDC",
             linewidth=2,
             gridcolor="#BCCCDC",
             zeroline = False
         ),
         yaxis=dict(
-            title=y,  
+            title=y + ' ({})'.format(df[y].values[0]),  
             linecolor="#BCCCDC", 
             linewidth=2,
             gridcolor="#BCCCDC",
-            zeroline = False
+            zeroline = False,
         ),
-        width = 500,
-        height = 500
+        height = 700,
+        font = dict(family= 'Cambria', size=15)
     )
 
     fig = go.Figure(
@@ -159,22 +165,24 @@ def open_modal(app, modal, button_open, button_close):
 def enable_printout(app):
     @app.callback(
         [Output('open-printout', 'disabled'), Output('printout-display', 'children')],
-        [Input('run-button', 'n_clicks')],
+        [Input('run-button', 'n_clicks'), Input('open-printout', 'n_clicks')],
         [State('printout-checklist', 'value'),State('open-printout', 'disabled')]
     )
-    def tick_printoout(run, tick, printout):
+    def tick_printoout(run, click_open, tick, printout):
         final_text = ''''''
         if run:
             if tick:
                 printout = False
-                text_markdown = '\t'
-                if os.path.isfile('./printout.txt'):
-                    with open('./printout.txt') as handle:
-                        for line in handle.read():
-                            text_markdown += line
-                final_text = '''{}'''.format(text_markdown)
             else:
                 printout = True
+
+        if click_open:
+            text_markdown = '\t'
+            if os.path.isfile('./printout.txt'):
+                with open('./printout.txt') as handle:
+                    for line in handle.read():
+                        text_markdown += line
+                final_text = '''{}'''.format(text_markdown)
 
         return printout, final_text
 
@@ -225,9 +233,9 @@ def tabs_display(app):
                     tick
                 )
                 dfIO = L1.dfOutputs
-                fig1 = generate_plot(dfIO,'\u03B4 (mm)')
-                fig2 = generate_plot(dfIO,'Fw (Frac.)')
-                fig3 = generate_plot(dfIO,'d\u03B4/dt (mm/s)')
+                fig1 = generate_plot(dfIO,'δ')
+                fig2 = generate_plot(dfIO,'Fw')
+                fig3 = generate_plot(dfIO,'dδ/dt')
 
                 children1 = [generate_table(dfIO)]
                 children2 = [html.Div(dcc.Graph(figure=fig1))]
@@ -236,9 +244,9 @@ def tabs_display(app):
 
                 children = [
                 dcc.Tab(children1, label='Inputs / Results', value='tab-1', id='tab-1'),
-                dcc.Tab(children2, label='\u03B4', value='tab-2',  id='tab-2'),
+                dcc.Tab(children2, label='δ', value='tab-2',  id='tab-2'),
                 dcc.Tab(children3, label='Fw', value='tab-3', id='tab-3') ,
-                dcc.Tab(children4, label='d\u03B4/dt', value='tab-4', id='tab-4') 
+                dcc.Tab(children4, label='dδ/dt', value='tab-4', id='tab-4') 
                 ]
 
         return children

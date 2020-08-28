@@ -1,0 +1,1204 @@
+
+
+Iteration no. 1 	Time 0 min
+
+Calculating VO :
+VO: Velocity of oil
+Qo = mo / RHOo 
+Vo = Qo / (pi x di/2)^2
+VO = 0.3852856555463464 m/s
+
+Calculating DELD :
+DELD: (Guessed) Thickness of wax deposit layer
+DELd = 0.5 x (di-dw)
+DELD = 0.0 m
+
+Calculating NSR :
+NSR: Reynold number of oil within deposit layer (evaluated at Tw)
+Nsr = (RHOow x Vo x DELd)/UOW
+NSR = 0.0 
+
+Calculating REOW :
+REOW: Reynold number of oil (evaluated at Tw)
+Reow = (RHOow x Vo x DELd)/UOW
+REOW = 3448.581711706835 
+
+Calculating FO :
+FO: Percentage (weight) of oil in the deposit
+Fo = 100 x (1-((Reow ^ 0.15)/8))
+FO = 57.581423409398425 %
+
+Calculating FW :
+FW: Percentage (weight) of solid wax in the deposit
+Fw = 100 x (1-((Reow ^ 0.15)/8))
+FW = 0.42418576590601575 Frac.
+
+Calculating PY1 :
+PY1: 
+PY1 = C1 / (1-(Fo/100))
+PY1 = 35.36186549768259 
+
+Calculating PY2 :
+PY2: 
+PY2 = C2 x (Nsr ^ C3)
+PY2 = 0.0 
+
+Calculating MVWW :
+MVWW: Molar volume of wax
+MVww = MWww / RHOww
+MVWW = [459.21246004] cm³/mol
+
+Calculating DOW :
+DOW: Diffusion rate of wax
+
+DOW = 2.0459263476333382e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT: Incremental increase of thickness of wax deposit layer
+dDEL/dt = (PY1 / (1+PY2)) x Dow x (dC/dT x dT/dr)
+DDEL_DT = 0.4157637805146356 mm/s
+
+Calculating DELTA :
+DELTA: Total thickness of wax deposit layer
+DELTA = DELt-1 + (dDEL/dt x dt)
+DELTA = 0.4157637805146356 mm
+
+Iteration no. 2 	Time 10 min
+
+Calculating VO :
+VO = 0.3925571021163719 m/s
+
+Calculating DELD :
+DELD = 0.00020749999999999935 m
+
+Calculating NSR :
+NSR = 17.30706620970385 
+
+Calculating REOW :
+REOW = 3685.3625083169495 
+
+Calculating FO :
+FO = 57.15678581692798 %
+
+Calculating FW :
+FW = 0.4284321418307202 Frac.
+
+Calculating PY1 :
+PY1 = 35.011378781955905 
+
+Calculating PY2 :
+PY2 = 2.9776628777434264 
+
+Calculating MVWW :
+MVWW = [474.94493368] cm³/mol
+
+Calculating DOW :
+DOW = 2.1463710452794064e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.04801095963855087 mm/s
+
+Calculating DELTA :
+DELTA = 0.4637747401531864 mm
+
+Iteration no. 3 	Time 20 min
+
+Calculating VO :
+VO = 0.39550545804660386 m/s
+
+Calculating DELD :
+DELD = 0.0002899999999999986 m
+
+Calculating NSR :
+NSR = 24.80100300915986 
+
+Calculating REOW :
+REOW = 3764.6212153904216 
+
+Calculating FO :
+FO = 57.019822391251196 %
+
+Calculating FW :
+FW = 0.42980177608748804 Frac.
+
+Calculating PY1 :
+PY1 = 34.89980924822117 
+
+Calculating PY2 :
+PY2 = 4.927420574192593 
+
+Calculating MVWW :
+MVWW = [482.76261786] cm³/mol
+
+Calculating DOW :
+DOW = 2.1698384522951178e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.030848949576094926 mm/s
+
+Calculating DELTA :
+DELTA = 0.49462368972928134 mm
+
+Iteration no. 4 	Time 30 min
+
+Calculating VO :
+VO = 0.39748952062230486 m/s
+
+Calculating DELD :
+DELD = 0.00034500000000000156 m
+
+Calculating NSR :
+NSR = 29.981201669160285 
+
+Calculating REOW :
+REOW = 3815.868305196586 
+
+Calculating FO :
+FO = 56.932563736267824 %
+
+Calculating FW :
+FW = 0.43067436263732173 Frac.
+
+Calculating PY1 :
+PY1 = 34.829098969682015 
+
+Calculating PY2 :
+PY2 = 6.426157114283407 
+
+Calculating MVWW :
+MVWW = [487.58976165] cm³/mol
+
+Calculating DOW :
+DOW = 2.1850502720245226e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.023934202406360537 mm/s
+
+Calculating DELTA :
+DELTA = 0.5185578921356419 mm
+
+Iteration no. 5 	Time 40 min
+
+Calculating VO :
+VO = 0.39901469370231074 m/s
+
+Calculating DELD :
+DELD = 0.00038699999999999846 m
+
+Calculating NSR :
+NSR = 34.03040546355991 
+
+Calculating REOW :
+REOW = 3853.789534485743 
+
+Calculating FO :
+FO = 56.8686340803207 %
+
+Calculating FW :
+FW = 0.431313659196793 Frac.
+
+Calculating PY1 :
+PY1 = 34.77747500028984 
+
+Calculating PY2 :
+PY2 = 7.673202552327845 
+
+Calculating MVWW :
+MVWW = [491.05344508] cm³/mol
+
+Calculating DOW :
+DOW = 2.196261061652575e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.020064520851303228 mm/s
+
+Calculating DELTA :
+DELTA = 0.5386224129869451 mm
+
+Iteration no. 6 	Time 50 min
+
+Calculating VO :
+VO = 0.40027409088912747 m/s
+
+Calculating DELD :
+DELD = 0.00042150000000000173 m
+
+Calculating NSR :
+NSR = 37.39578217135888 
+
+Calculating REOW :
+REOW = 3882.1524091865813 
+
+Calculating FO :
+FO = 56.821167021425666 %
+
+Calculating FW :
+FW = 0.43178832978574333 Frac.
+
+Calculating PY1 :
+PY1 = 34.7392436646982 
+
+Calculating PY2 :
+PY2 = 8.756173521483115 
+
+Calculating MVWW :
+MVWW = [493.73763559] cm³/mol
+
+Calculating DOW :
+DOW = 2.204106554219977e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.017530920520542465 mm/s
+
+Calculating DELTA :
+DELTA = 0.5561533335074876 mm
+
+Iteration no. 7 	Time 60 min
+
+Calculating VO :
+VO = 0.401337332796485 m/s
+
+Calculating DELD :
+DELD = 0.0004504999999999995 m
+
+Calculating NSR :
+NSR = 40.264282329209976 
+
+Calculating REOW :
+REOW = 3905.6800743710296 
+
+Calculating FO :
+FO = 56.78201514985799 %
+
+Calculating FW :
+FW = 0.4321798485014201 Frac.
+
+Calculating PY1 :
+PY1 = 34.7077728219221 
+
+Calculating PY2 :
+PY2 = 9.710702232281117 
+
+Calculating MVWW :
+MVWW = [495.9221653] cm³/mol
+
+Calculating DOW :
+DOW = 2.210609229453566e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.01573914988522979 mm/s
+
+Calculating DELTA :
+DELTA = 0.5718924833927175 mm
+
+Iteration no. 8 	Time 70 min
+
+Calculating VO :
+VO = 0.4022757566367772 m/s
+
+Calculating DELD :
+DELD = 0.00047599999999999726 m
+
+Calculating NSR :
+NSR = 42.814229233313945 
+
+Calculating REOW :
+REOW = 3925.9568856632313 
+
+Calculating FO :
+FO = 56.748433461612315 %
+
+Calculating FW :
+FW = 0.43251566538387687 Frac.
+
+Calculating PY1 :
+PY1 = 34.68082476662859 
+
+Calculating PY2 :
+PY2 = 10.58244625498876 
+
+Calculating MVWW :
+MVWW = [497.76998885] cm³/mol
+
+Calculating DOW :
+DOW = 2.2161930232592602e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.014374776272048502 mm/s
+
+Calculating DELTA :
+DELTA = 0.586267259664766 mm
+
+Iteration no. 9 	Time 80 min
+
+Calculating VO :
+VO = 0.40310651370603606 m/s
+
+Calculating DELD :
+DELD = 0.0004984999999999989 m
+
+Calculating NSR :
+NSR = 45.086902299629536 
+
+Calculating REOW :
+REOW = 3943.679440262289 
+
+Calculating FO :
+FO = 56.719202560413805 %
+
+Calculating FW :
+FW = 0.43280797439586194 Frac.
+
+Calculating PY1 :
+PY1 = 34.65740209832745 
+
+Calculating PY2 :
+PY2 = 11.377143786342984 
+
+Calculating MVWW :
+MVWW = [499.36262311] cm³/mol
+
+Calculating DOW :
+DOW = 2.2210676298171654e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.013305917351640344 mm/s
+
+Calculating DELTA :
+DELTA = 0.5995731770164063 mm
+
+Iteration no. 10 	Time 90 min
+
+Calculating VO :
+VO = 0.4038656682322616 m/s
+
+Calculating DELD :
+DELD = 0.0005190000000000021 m
+
+Calculating NSR :
+NSR = 47.1745244061109 
+
+Calculating REOW :
+REOW = 3959.569618841994 
+
+Calculating FO :
+FO = 56.69308869338041 %
+
+Calculating FW :
+FW = 0.4330691130661959 Frac.
+
+Calculating PY1 :
+PY1 = 34.63650384530472 
+
+Calculating PY2 :
+PY2 = 12.121412537657648 
+
+Calculating MVWW :
+MVWW = [500.76974605] cm³/mol
+
+Calculating DOW :
+DOW = 2.225422585385551e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.012429871290690972 mm/s
+
+Calculating DELTA :
+DELTA = 0.6120030483070973 mm
+
+Iteration no. 11 	Time 100 min
+
+Calculating VO :
+VO = 0.4045526013123743 m/s
+
+Calculating DELD :
+DELD = 0.0005374999999999998 m
+
+Calculating NSR :
+NSR = 49.073224859219884 
+
+Calculating REOW :
+REOW = 3973.7899758093886 
+
+Calculating FO :
+FO = 56.66979442560341 %
+
+Calculating FW :
+FW = 0.43330205574396585 Frac.
+
+Calculating PY1 :
+PY1 = 34.61788330139694 
+
+Calculating PY2 :
+PY2 = 12.809881954558664 
+
+Calculating MVWW :
+MVWW = [502.0147245] cm³/mol
+
+Calculating DOW :
+DOW = 2.22931367239557e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.011707073428044596 mm/s
+
+Calculating DELTA :
+DELTA = 0.6237101217351418 mm
+
+Iteration no. 12 	Time 110 min
+
+Calculating VO :
+VO = 0.4052040172076308 m/s
+
+Calculating DELD :
+DELD = 0.0005549999999999999 m
+
+Calculating NSR :
+NSR = 50.87772235899931 
+
+Calculating REOW :
+REOW = 3986.7966583655502 
+
+Calculating FO :
+FO = 56.648550229534386 %
+
+Calculating FW :
+FW = 0.4335144977046561 Frac.
+
+Calculating PY1 :
+PY1 = 34.60091895293239 
+
+Calculating PY2 :
+PY2 = 13.474151152371434 
+
+Calculating MVWW :
+MVWW = [503.13236254] cm³/mol
+
+Calculating DOW :
+DOW = 2.2328373366873146e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.011080812588337012 mm/s
+
+Calculating DELTA :
+DELTA = 0.6347909343234789 mm
+
+Iteration no. 13 	Time 120 min
+
+Calculating VO :
+VO = 0.4057823004000795 m/s
+
+Calculating DELD :
+DELD = 0.0005704999999999981 m
+
+Calculating NSR :
+NSR = 52.490729885584116 
+
+Calculating REOW :
+REOW = 3998.5883086724066 
+
+Calculating FO :
+FO = 56.629341434226475 %
+
+Calculating FW :
+FW = 0.43370658565773523 Frac.
+
+Calculating PY1 :
+PY1 = 34.58559426127191 
+
+Calculating PY2 :
+PY2 = 14.075970431270074 
+
+Calculating MVWW :
+MVWW = [504.14586284] cm³/mol
+
+Calculating DOW :
+DOW = 2.2360578424297796e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.010560632518600033 mm/s
+
+Calculating DELTA :
+DELTA = 0.645351566842079 mm
+
+Iteration no. 14 	Time 130 min
+
+Calculating VO :
+VO = 0.40634310878261815 m/s
+
+Calculating DELD :
+DELD = 0.0005854999999999992 m
+
+Calculating NSR :
+NSR = 54.058290004908066 
+
+Calculating REOW :
+REOW = 4009.7309592197357 
+
+Calculating FO :
+FO = 56.611234066256536 %
+
+Calculating FW :
+FW = 0.4338876593374347 Frac.
+
+Calculating PY1 :
+PY1 = 34.57116070760264 
+
+Calculating PY2 :
+PY2 = 14.667966682069489 
+
+Calculating MVWW :
+MVWW = [505.08988485] cm³/mol
+
+Calculating DOW :
+DOW = 2.2390792289587138e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.010092971505904571 mm/s
+
+Calculating DELTA :
+DELTA = 0.6554445383479836 mm
+
+Iteration no. 15 	Time 140 min
+
+Calculating VO :
+VO = 0.4068488309382893 m/s
+
+Calculating DELD :
+DELD = 0.0005989999999999988 m
+
+Calculating NSR :
+NSR = 55.47842206198751 
+
+Calculating REOW :
+REOW = 4019.823830274435 
+
+Calculating FO :
+FO = 56.5948695215447 %
+
+Calculating FW :
+FW = 0.434051304784553 Frac.
+
+Calculating PY1 :
+PY1 = 34.55812673445468 
+
+Calculating PY2 :
+PY2 = 15.21025271392994 
+
+Calculating MVWW :
+MVWW = [505.94149597] cm³/mol
+
+Calculating DOW :
+DOW = 2.241822866060837e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.009693867185682437 mm/s
+
+Calculating DELTA :
+DELTA = 0.665138405533666 mm
+
+Iteration no. 16 	Time 150 min
+
+Calculating VO :
+VO = 0.40735549779119923 m/s
+
+Calculating DELD :
+DELD = 0.0006124999999999985 m
+
+Calculating NSR :
+NSR = 56.901361675040306 
+
+Calculating REOW :
+REOW = 4029.54540841613 
+
+Calculating FO :
+FO = 56.57913997751096 %
+
+Calculating FW :
+FW = 0.4342086002248904 Frac.
+
+Calculating PY1 :
+PY1 = 34.545607784440534 
+
+Calculating PY2 :
+PY2 = 15.75920890619938 
+
+Calculating MVWW :
+MVWW = [506.74680247] cm³/mol
+
+Calculating DOW :
+DOW = 2.2444331221795798e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.009321231395122233 mm/s
+
+Calculating DELTA :
+DELTA = 0.6744596369287882 mm
+
+Iteration no. 17 	Time 160 min
+
+Calculating VO :
+VO = 0.40780666330945636 m/s
+
+Calculating DELD :
+DELD = 0.0006245000000000001 m
+
+Calculating NSR :
+NSR = 58.17589156235212 
+
+Calculating REOW :
+REOW = 4038.403643105727 
+
+Calculating FO :
+FO = 56.564835387564 %
+
+Calculating FW :
+FW = 0.43435164612435995 Frac.
+
+Calculating PY1 :
+PY1 = 34.53423081008728 
+
+Calculating PY2 :
+PY2 = 16.25559821007884 
+
+Calculating MVWW :
+MVWW = [507.48285176] cm³/mol
+
+Calculating DOW :
+DOW = 2.2468323882739267e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.009003042769684834 mm/s
+
+Calculating DELTA :
+DELTA = 0.6834626796984731 mm
+
+Iteration no. 18 	Time 170 min
+
+Calculating VO :
+VO = 0.40825857877378285 m/s
+
+Calculating DELD :
+DELD = 0.0006365000000000016 m
+
+Calculating NSR :
+NSR = 59.45109358407698 
+
+Calculating REOW :
+REOW = 4046.8775046618953 
+
+Calculating FO :
+FO = 56.55117643488232 %
+
+Calculating FW :
+FW = 0.4344882356511768 Frac.
+
+Calculating PY1 :
+PY1 = 34.52337432685417 
+
+Calculating PY2 :
+PY2 = 16.756622134206076 
+
+Calculating MVWW :
+MVWW = [508.17269771] cm³/mol
+
+Calculating DOW :
+DOW = 2.2490927982464634e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.008703412647792766 mm/s
+
+Calculating DELTA :
+DELTA = 0.6921660923462658 mm
+
+Iteration no. 19 	Time 180 min
+
+Calculating VO :
+VO = 0.40867349484314597 m/s
+
+Calculating DELD :
+DELD = 0.0006474999999999988 m
+
+Calculating NSR :
+NSR = 60.62890233889902 
+
+Calculating REOW :
+REOW = 4054.8797154996555 
+
+Calculating FO :
+FO = 56.53830003284692 %
+
+Calculating FW :
+FW = 0.4346169996715308 Frac.
+
+Calculating PY1 :
+PY1 = 34.51314608341714 
+
+Calculating PY2 :
+PY2 = 17.22321715454361 
+
+Calculating MVWW :
+MVWW = [508.82787193] cm³/mol
+
+Calculating DOW :
+DOW = 2.2512501695657955e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.008438875555398148 mm/s
+
+Calculating DELTA :
+DELTA = 0.7006049679016639 mm
+
+Iteration no. 20 	Time 190 min
+
+Calculating VO :
+VO = 0.40907014142300074 m/s
+
+Calculating DELD :
+DELD = 0.0006579999999999989 m
+
+Calculating NSR :
+NSR = 61.75620878863524 
+
+Calculating REOW :
+REOW = 4062.3947434761285 
+
+Calculating FO :
+FO = 56.52622721156313 %
+
+Calculating FW :
+FW = 0.4347377278843687 Frac.
+
+Calculating PY1 :
+PY1 = 34.50356166003078 
+
+Calculating PY2 :
+PY2 = 17.673215253781315 
+
+Calculating MVWW :
+MVWW = [509.43691222] cm³/mol
+
+Calculating DOW :
+DOW = 2.253264900550846e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0081970453211048 mm/s
+
+Calculating DELTA :
+DELTA = 0.7088020132227687 mm
+
+Iteration no. 21 	Time 200 min
+
+Calculating VO :
+VO = 0.40944843718253127 m/s
+
+Calculating DELD :
+DELD = 0.0006679999999999985 m
+
+Calculating NSR :
+NSR = 62.83542072704841 
+
+Calculating REOW :
+REOW = 4069.6282070883663 
+
+Calculating FO :
+FO = 56.51462463739636 %
+
+Calculating FW :
+FW = 0.4348537536260364 Frac.
+
+Calculating PY1 :
+PY1 = 34.494355573390386 
+
+Calculating PY2 :
+PY2 = 18.107105323572437 
+
+Calculating MVWW :
+MVWW = [510.02282725] cm³/mol
+
+Calculating DOW :
+DOW = 2.2552115926487426e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.00797543027499762 mm/s
+
+Calculating DELTA :
+DELTA = 0.7167774434977663 mm
+
+Iteration no. 22 	Time 210 min
+
+Calculating VO :
+VO = 0.4098083044180687 m/s
+
+Calculating DELD :
+DELD = 0.000677500000000001 m
+
+Calculating NSR :
+NSR = 63.8642583923156 
+
+Calculating REOW :
+REOW = 4076.472109484404 
+
+Calculating FO :
+FO = 56.50366305216412 %
+
+Calculating FW :
+FW = 0.4349633694783588 Frac.
+
+Calculating PY1 :
+PY1 = 34.485662592666465 
+
+Calculating PY2 :
+PY2 = 18.52352826029947 
+
+Calculating MVWW :
+MVWW = [510.57414899] cm³/mol
+
+Calculating DOW :
+DOW = 2.2570509515126735e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.007772335513650721 mm/s
+
+Calculating DELTA :
+DELTA = 0.724549779011417 mm
+
+Iteration no. 23 	Time 220 min
+
+Calculating VO :
+VO = 0.41016864629711275 m/s
+
+Calculating DELD :
+DELD = 0.0006870000000000001 m
+
+Calculating NSR :
+NSR = 64.8922654268634 
+
+Calculating REOW :
+REOW = 4083.017562360403 
+
+Calculating FO :
+FO = 56.49319410532099 %
+
+Calculating FW :
+FW = 0.4350680589467901 Frac.
+
+Calculating PY1 :
+PY1 = 34.477364383659655 
+
+Calculating PY2 :
+PY2 = 18.942303892789877 
+
+Calculating MVWW :
+MVWW = [511.09090068] cm³/mol
+
+Calculating DOW :
+DOW = 2.2587816894900116e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.00757824991156952 mm/s
+
+Calculating DELTA :
+DELTA = 0.7321280289229866 mm
+
+Iteration no. 24 	Time 230 min
+
+Calculating VO :
+VO = 0.4105104613999172 m/s
+
+Calculating DELD :
+DELD = 0.0006960000000000022 m
+
+Calculating NSR :
+NSR = 65.87224737152731 
+
+Calculating REOW :
+REOW = 4089.3794029151477 
+
+Calculating FO :
+FO = 56.4830324939385 %
+
+Calculating FW :
+FW = 0.435169675060615 Frac.
+
+Calculating PY1 :
+PY1 = 34.46931360258649 
+
+Calculating PY2 :
+PY2 = 19.343994600659418 
+
+Calculating MVWW :
+MVWW = [511.59606383] cm³/mol
+
+Calculating DOW :
+DOW = 2.2604799138472663e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0073998170879549935 mm/s
+
+Calculating DELTA :
+DELTA = 0.7395278460109416 mm
+
+Iteration no. 25 	Time 240 min
+
+Calculating VO :
+VO = 0.41083367925777675 m/s
+
+Calculating DELD :
+DELD = 0.0007045000000000003 m
+
+Calculating NSR :
+NSR = 66.80024918816214 
+
+Calculating REOW :
+REOW = 4095.3435950119374 
+
+Calculating FO :
+FO = 56.47351823287825 %
+
+Calculating FW :
+FW = 0.4352648176712175 Frac.
+
+Calculating PY1 :
+PY1 = 34.46177910784058 
+
+Calculating PY2 :
+PY2 = 19.72658940146267 
+
+Calculating MVWW :
+MVWW = [512.17999038] cm³/mol
+
+Calculating DOW :
+DOW = 2.2617480834258e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0014356334480541686 mm/s
+
+Calculating DELTA :
+DELTA = 0.7409634794589958 mm
+
+Iteration no. 26 	Time 250 min
+
+Calculating VO :
+VO = 0.41115727899722937 m/s
+
+Calculating DELD :
+DELD = 0.0007130000000000018 m
+
+Calculating NSR :
+NSR = 67.72980399969322 
+
+Calculating REOW :
+REOW = 4101.215368699505 
+
+Calculating FO :
+FO = 56.46416289875229 %
+
+Calculating FW :
+FW = 0.4353583710124771 Frac.
+
+Calculating PY1 :
+PY1 = 34.4543736809648 
+
+Calculating PY2 :
+PY2 = 20.11196181795319 
+
+Calculating MVWW :
+MVWW = [512.9875625] cm³/mol
+
+Calculating DOW :
+DOW = 2.2623199236604602e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0014037472480539473 mm/s
+
+Calculating DELTA :
+DELTA = 0.7423672267070497 mm
+
+Iteration no. 27 	Time 260 min
+
+Calculating VO :
+VO = 0.4114621928437144 m/s
+
+Calculating DELD :
+DELD = 0.0007209999999999994 m
+
+Calculating NSR :
+NSR = 68.6082996847488 
+
+Calculating REOW :
+REOW = 4106.791952558101 
+
+Calculating FO :
+FO = 56.4552884173547 %
+
+Calculating FW :
+FW = 0.435447115826453 Frac.
+
+Calculating PY1 :
+PY1 = 34.44735182487288 
+
+Calculating PY2 :
+PY2 = 20.478116454582093 
+
+Calculating MVWW :
+MVWW = [513.75453114] cm³/mol
+
+Calculating DOW :
+DOW = 2.2628693440600498e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0013744500203934295 mm/s
+
+Calculating DELTA :
+DELTA = 0.7437416767274431 mm
+
+Iteration no. 28 	Time 270 min
+
+Calculating VO :
+VO = 0.4117674460017392 m/s
+
+Calculating DELD :
+DELD = 0.000728999999999997 m
+
+Calculating NSR :
+NSR = 69.48791387126762 
+
+Calculating REOW :
+REOW = 4112.273772612128 
+
+Calculating FO :
+FO = 56.44657471925636 %
+
+Calculating FW :
+FW = 0.4355342528074364 Frac.
+
+Calculating PY1 :
+PY1 = 34.44045997142727 
+
+Calculating PY2 :
+PY2 = 20.84662109027955 
+
+Calculating MVWW :
+MVWW = [514.50110597] cm³/mol
+
+Calculating DOW :
+DOW = 2.263410081796554e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0013461870796344778 mm/s
+
+Calculating DELTA :
+DELTA = 0.7450878638070776 mm
+
+Iteration no. 29 	Time 280 min
+
+Calculating VO :
+VO = 0.4120730389749439 m/s
+
+Calculating DELD :
+DELD = 0.0007370000000000015 m
+
+Calculating NSR :
+NSR = 70.3685828647033 
+
+Calculating REOW :
+REOW = 4117.660114821151 
+
+Calculating FO :
+FO = 56.438022400790054 %
+
+Calculating FW :
+FW = 0.43561977599209945 Frac.
+
+Calculating PY1 :
+PY1 = 34.43369843767618 
+
+Calculating PY2 :
+PY2 = 21.21744164755055 
+
+Calculating MVWW :
+MVWW = [515.22732381] cm³/mol
+
+Calculating DOW :
+DOW = 2.263941617408493e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0013189008924048029 mm/s
+
+Calculating DELTA :
+DELTA = 0.7464067646994824 mm
+
+Iteration no. 30 	Time 290 min
+
+Calculating VO :
+VO = 0.41235984145722726 m/s
+
+Calculating DELD :
+DELD = 0.0007445000000000021 m
+
+Calculating NSR :
+NSR = 71.19726262190595 
+
+Calculating REOW :
+REOW = 4122.74706365746 
+
+Calculating FO :
+FO = 56.429954179331276 %
+
+Calculating FW :
+FW = 0.43570045820668724 Frac.
+
+Calculating PY1 :
+PY1 = 34.42732206832868 
+
+Calculating PY2 :
+PY2 = 21.56807098947773 
+
+Calculating MVWW :
+MVWW = [515.91330678] cm³/mol
+
+Calculating DOW :
+DOW = 2.264447771387768e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0012938237140679367 mm/s
+
+Calculating DELTA :
+DELTA = 0.7477005884135504 mm
+
+Iteration no. 31 	Time 300 min
+
+Calculating VO :
+VO = 0.41262779400436567 m/s
+
+Calculating DELD :
+DELD = 0.0007514999999999987 m
+
+Calculating NSR :
+NSR = 71.97535583364238 
+
+Calculating REOW :
+REOW = 4127.640599284752 
+
+Calculating FO :
+FO = 56.42220070486638 %
+
+Calculating FW :
+FW = 0.43577799295133623 Frac.
+
+Calculating PY1 :
+PY1 = 34.42119667037676 
+
+Calculating PY2 :
+PY2 = 21.898785939242252 
+
+Calculating MVWW :
+MVWW = [516.57894619] cm³/mol
+
+Calculating DOW :
+DOW = 2.2649436365635065e-10 m²/s
+
+Calculating DDEL_DT :
+DDEL_DT = 0.0012707663667347923 mm/s
+
+Calculating DELTA :
+DELTA = 0.7489713547802852 mm

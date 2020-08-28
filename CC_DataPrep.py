@@ -40,12 +40,12 @@ def Abbreviations(handle):
         'DI' : 'm',
         'DW' : 'm',
         'PIO' : 'Pa',
-        'TOI' : 'degC',
-        'QO' : 'm3/s',
+        'TOI' : '°C',
+        'QO' : 'm³/s',
         'MO' : 'kg/s',
-        'RHOO' : 'kg/m3',
-        'RHOOW' : 'kg/m3',
-        'RHOWW' : 'kg/m3',
+        'RHOO' : 'kg/m³',
+        'RHOOW' : 'kg/m³',
+        'RHOWW' : 'kg/m³',
         'UOW' : 'Pa.s',
         'VO' : 'm/s',
         'TW' : 'degC',
@@ -56,16 +56,16 @@ def Abbreviations(handle):
         'FW' : 'Frac.',
         'PY1' : '',
         'PY2' : '',
-        'DOW' : 'm2/s',
-        'DT_DR' : 'degC/m',
+        'DOW' : 'm²/s',
+        'DT_DR' : 'K/m',
         'MWWW' : 'g/mol',
         'MWOW' : 'g/mol',
-        'MVWW' : 'cm3/mol',
+        'MVWW' : 'cm³/mol',
         'TIME' : 'min',
         'CWAXFEED' : 'mol/mol',
         'DC_DT' : '',
-        'DDEL_DT' : 'm/s',
-        'DELTA' : 'm'
+        'DDEL_DT' : 'mm/s',
+        'DELTA' : 'mm'
     }
 
     Equation = {
@@ -84,18 +84,29 @@ def Abbreviations(handle):
     }
 
     Symbol = {
+        'TIME' : 'Time',
+        'TW' : 'Tw',
+        'DW' : 'dw',
+        'DT_DR' : 'dT/dr',
+        'RHOO' : 'ρo',
+        'QO' : 'Qo',
         'VO' : 'Vo',
-        'DELD' : 'DELd',
-        'NSR' : 'Nsr',
+        'DELD' : 'δd',
+        'RHOOW' : 'ρow',
+        'UOW' : 'μow',
         'REOW' : 'Reow',
         'FO' : 'Fo',
         'FW' : 'Fw',
+        'NSR' : 'Nsr',
+        'MWWW' : 'MWww',
+        'RHOWW' : 'ρww',
+        'MVWW' : 'MVww',
         'PY1' : 'π1',
         'PY2' : 'π2',
         'DOW' : 'Dow',
-        'MVWW' : 'MVww',
-        'DDEL_DT' : 'dDEL/dt',
-        'DELTA' : 'DEL'
+        'DC_DT' : 'dC/dT',
+        'DDEL_DT' : 'dδ/dt',
+        'DELTA' : 'δ'
     }
 
 
@@ -294,6 +305,9 @@ def Interp_Property(PropertyTable, Index, Single=True):
         Upper_bound = PropertyTable[int(np.ceil(Index))]
         Ratio = Index - np.floor(Index)
         Property = (Ratio * (Upper_bound - Lower_bound)) + Lower_bound
+        # printnsave('./', 'Lower bound = {}, Upper bound = {}, Ratio = {}, Interp Property = {}'.format(
+        #     Lower_bound, Upper_bound, Ratio, Property
+        # ))
     else:
         [PIndex, TIndex] = Index
         Points = [
@@ -311,8 +325,12 @@ def Interp_Property(PropertyTable, Index, Single=True):
     return Property
 
 def Find_DC_DT(P_Index, TEMP_Index, TEMP_Table, CWAX_Table, CWAX_Feed):
+    
     [PIndex, PExact] = P_Index
     [TIndex, TExact] = TEMP_Index
+
+    # printnsave('./', '\nGetting dC/dT')
+    # printnsave('./', 'P Index : {} [{}], T Index : {} [{}]'.format(PIndex, PExact, TIndex, TExact))
 
     if TExact:
         LowerT = TIndex-1 if TIndex-1>0 else 0
@@ -320,6 +338,8 @@ def Find_DC_DT(P_Index, TEMP_Index, TEMP_Table, CWAX_Table, CWAX_Feed):
     else:
         LowerT = int(np.floor(TIndex))
         UpperT = int(np.ceil(TIndex))
+
+    # printnsave('./', 'LowerT : {}, UpperT : {}'.format(LowerT, UpperT))
 
     if PExact:
         CWAX_LowerT = sum(CWAX_Table[PIndex][LowerT])
@@ -330,14 +350,23 @@ def Find_DC_DT(P_Index, TEMP_Index, TEMP_Table, CWAX_Table, CWAX_Feed):
         CWAX_LowerT = Interp_Property(CWAXTable_LowerT, PIndex)
         CWAX_UpperT = Interp_Property(CWAXTable_UpperT, PIndex)
 
+    CWaxPercipitate_Lower = CWAX_Feed - CWAX_LowerT
+    CWaxPercipitate_Upper = CWAX_Feed - CWAX_UpperT
+
     TEMP_Lower = TEMP_Table[LowerT]
     TEMP_Upper = TEMP_Table[UpperT]
-    DC_DT = abs((CWAX_UpperT - CWAX_LowerT) / (TEMP_Lower - TEMP_Upper))
+    DC_DT = abs((CWaxPercipitate_Upper - CWaxPercipitate_Lower) / (TEMP_Lower - TEMP_Upper))
+
+    # printnsave('./', 'CWAX_LowerT : {}, CWAX_UpperT : {}'.format(CWAX_LowerT, CWAX_UpperT))
+    # printnsave('./', 'TEMP_Lower : {}, TEMP_Upper : {}'.format(TEMP_Lower, TEMP_Upper))
+    # printnsave('./', 'DC_DT : {}'.format(DC_DT))
 
     return DC_DT
 
 def round_sig(x, sig=3):
-    
-    return np.round(x, sig-int(math.floor(math.log10(abs(x))))-1)
+    try:
+        return np.round(x, sig-int(math.floor(math.log10(abs(x))))-1)
+    except:
+        return np.round(x, sig)
     
 

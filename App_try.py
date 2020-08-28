@@ -148,7 +148,7 @@ app.layout = html.Div([
             'padding': '20px 20px 5px 20px',
             'font-size':'15px', 
             'text-align': 'center',
-            'font-family': 'Georgia',
+            'font-family': 'Cambria',
             'color': 'darkslategray'
         }
     ),

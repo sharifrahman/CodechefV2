@@ -3,7 +3,7 @@ import os
 import math
 import numpy as np
 import pandas as pd
-import CC_DataPrep as CCD
+import CC_DataPrep as ccd
 from printandsave import printnsave
 
 class Master():
@@ -23,8 +23,6 @@ class Master():
         self.Files = Files
         self.track = track
         
-        self.Unit = CCD.Abbreviations('Unit')
-        self.Desc = CCD.Abbreviations('Description')
         self.dfOutputs = pd.DataFrame()
 
         self.Get('From Input Files')
@@ -123,30 +121,30 @@ class Master():
             self.print_this(func)
 
         elif func=='DDEL_DT':
-            self.Val['DDEL_DT'] = (self.Val['PY1']/(1+self.Val['PY2']))*self.Val['DOW']*(self.Val['DC_DT']*self.Val['DT_DR'])
+            self.Val['DDEL_DT'] = (self.Val['PY1']/(1+self.Val['PY2']))*self.Val['DOW']*(self.Val['DC_DT']*self.Val['DT_DR'])* (10*60)*1000
             self.print_this(func)
 
         elif func=='DELTA':
-            self.Val['DELTA'] = self.Val['DELTA_TMINUS1'] + (self.Val['DDEL_DT'] * (10*60)) # dt = 10 min x 60 = 600 sec
-            # self.Val['DELTA'] = self.Val['DELTA_TMINUS1'] + (self.Val['DDEL_DT']) # dt = 10 min x 60 = 600 sec
+            # self.Val['DELTA'] = self.Val['DELTA_TMINUS1'] + (self.Val['DDEL_DT'] * (10*60)) # dt = 10 min x 60 = 600 sec
+            self.Val['DELTA'] = self.Val['DELTA_TMINUS1'] + (self.Val['DDEL_DT']) # dt = 10 min x 60 = 600 sec
             self.print_this(func)
 
     def Get(self, var):
         
 
         if var=='From Input Files':
-            self.Table['P_Table_TAB'], self.Table['T_Table_TAB'], self.Table['TAB_Properties'] = CCD.Get_File_Inputs(self.Files['tab'],'tab')
-            self.Table['P_Table_WAX'], self.Table['T_Table_WAX'], self.Table['WAX_Properties'] = CCD.Get_File_Inputs(self.Files['wax'],'wax')
-            self.dfInputs = CCD.Get_File_Inputs(self.Files['xlsx'],'xlsx')
+            self.Table['P_Table_TAB'], self.Table['T_Table_TAB'], self.Table['TAB_Properties'] = ccd.Get_File_Inputs(self.Files['tab'],'tab')
+            self.Table['P_Table_WAX'], self.Table['T_Table_WAX'], self.Table['WAX_Properties'] = ccd.Get_File_Inputs(self.Files['wax'],'wax')
+            self.dfInputs = ccd.Get_File_Inputs(self.Files['xlsx'],'xlsx')
         
         elif var=='PIO_TABIndex':
-            self.Val['PIO_TABIndex'] = CCD.Find_Nearest(self.Table['P_Table_TAB'], self.Val['PIO'])
+            self.Val['PIO_TABIndex'] = ccd.Find_Nearest(self.Table['P_Table_TAB'], self.Val['PIO'])
         
         elif var=='TOI_TABIndex':
-            self.Val['TOI_TABIndex'] = CCD.Find_Nearest(self.Table['T_Table_TAB'], self.Val['TOI'])
+            self.Val['TOI_TABIndex'] = ccd.Find_Nearest(self.Table['T_Table_TAB'], self.Val['TOI'])
         
         elif var=='RHOO':
-            self.Val['RHOO'] = CCD.Get_Property(
+            self.Val['RHOO'] = ccd.Get_Property(
                 self.Val['PIO_TABIndex'], self.Val['TOI_TABIndex'], self.Table['TAB_Properties']['RHO LIQ']
             )
 
@@ -166,84 +164,81 @@ class Master():
             self.Val['DELTA_TMINUS1'] = self.Val['DELTA'] # DELTA of previous iteration
 
         elif var=='TW_TABIndex':
-            self.Val['TW_TABIndex'] = CCD.Find_Nearest(self.Table['T_Table_TAB'], self.Val['TW'])
+            self.Val['TW_TABIndex'] = ccd.Find_Nearest(self.Table['T_Table_TAB'], self.Val['TW'])
 
         elif var=='PIO_WAXIndex':
-            self.Val['PIO_WAXIndex'] = CCD.Find_Nearest(self.Table['P_Table_WAX'], self.Val['PIO'])
+            self.Val['PIO_WAXIndex'] = ccd.Find_Nearest(self.Table['P_Table_WAX'], self.Val['PIO'])
 
         elif var=='TW_WAXIndex':
-            self.Val['TW_WAXIndex'] = CCD.Find_Nearest(self.Table['T_Table_WAX'], self.Val['TW'])
+            self.Val['TW_WAXIndex'] = ccd.Find_Nearest(self.Table['T_Table_WAX'], self.Val['TW'])
 
         elif var=='RHOOW':
-            self.Val['RHOOW'] = CCD.Get_Property(
+            self.Val['RHOOW'] = ccd.Get_Property(
                 self.Val['PIO_TABIndex'], self.Val['TW_TABIndex'], self.Table['TAB_Properties']['RHO LIQ']
             )
 
         elif var=='UOW':
-            self.Val['UOW'] =   CCD.Get_Property(
+            self.Val['UOW'] =   ccd.Get_Property(
                 self.Val['PIO_TABIndex'], self.Val['TW_TABIndex'], self.Table['TAB_Properties']['U LIQ']
             )
 
         elif var=='MWWW':
-            self.Val['MWWW'] =  CCD.Get_Property(
+            self.Val['MWWW'] =  ccd.Get_Property(
                 self.Val['PIO_WAXIndex'], self.Val['TW_WAXIndex'], self.Table['WAX_Properties']['MW WAX']
             )
 
         elif var=='MWOW':
-            self.Val['MWOW'] =  CCD.Get_Property(
+            self.Val['MWOW'] =  ccd.Get_Property(
                 self.Val['PIO_WAXIndex'], self.Val['TW_WAXIndex'], self.Table['WAX_Properties']['MW LIQ']
             )
 
         elif var=='RHOWW':
-            self.Val['RHOWW'] =  CCD.Get_Property(
+            self.Val['RHOWW'] =  ccd.Get_Property(
                 self.Val['PIO_WAXIndex'], self.Val['TW_WAXIndex'], self.Table['WAX_Properties']['RHO WAX']
             )
 
         elif var=='DC_DT':
-            self.Val['DC_DT'] = CCD.Find_DC_DT(
+            self.Val['DC_DT'] = ccd.Find_DC_DT(
                 self.Val['PIO_WAXIndex'], self.Val['TW_WAXIndex'], self.Table['T_Table_WAX'], 
                 self.Table['WAX_Properties']['CONCS WAX'], self.Val['CWAXFEED']
             )
         
     def Save_outputs(self):
-        Unit = CCD.Abbreviations('Unit')
-        self.dfOutputs.loc[self.Val['TIME'], 'Time'+' ('+Unit['TIME']+')'] = self.Val['TIME']
-        self.dfOutputs.loc[self.Val['TIME'], 'Tw'+' ('+Unit['TW']+')']     = self.Val['TW']
-        self.dfOutputs.loc[self.Val['TIME'], 'Vo'+' ('+Unit['VO']+')']     = np.round(self.Val['VO'],5)
-        self.dfOutputs.loc[self.Val['TIME'], 'RhoWw'+' ('+Unit['RHOWW']+')'] = np.round(self.Val['RHOWW'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'MVWW'+' ('+Unit['MVWW']+')'] = np.round(self.Val['MVWW'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'MWOW'+' ('+Unit['MWOW']+')']     = CCD.round_sig(self.Val['MWOW'],5)
-        self.dfOutputs.loc[self.Val['TIME'], '\u03B4d'+' (mm)']            = np.round(self.Val['DELD']*1000,3)
-        self.dfOutputs.loc[self.Val['TIME'], 'Nsr']                        = np.round(self.Val['NSR'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'Reow']                       = np.round(self.Val['REOW'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'Fo'+' ('+Unit['FO']+')']     = np.round(self.Val['FO'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'Fw'+' ('+Unit['FW']+')']     = np.round(self.Val['FW'],6)
-        self.dfOutputs.loc[self.Val['TIME'], '\u03C0₁']                    = np.round(self.Val['PY1'],3)
-        self.dfOutputs.loc[self.Val['TIME'], '\u03C0₂']                    = np.round(self.Val['PY2'],3)
-        self.dfOutputs.loc[self.Val['TIME'], 'Dow'+' (m²/s)']              = CCD.round_sig(self.Val['DOW'],4)
-        self.dfOutputs.loc[self.Val['TIME'], 'dC/dT']                      = CCD.round_sig(self.Val['DC_DT'])
-        self.dfOutputs.loc[self.Val['TIME'], 'd\u03B4/dt'+' (mm/s)']       = CCD.round_sig(self.Val['DDEL_DT']*1000) # m/s to mm/s
-        self.dfOutputs.loc[self.Val['TIME'], '\u03B4'+' (mm)']             = CCD.round_sig(self.Val['DELTA'] *1000) # m to mm
+        Unit = ccd.Abbreviations('Unit')
+        Symbol = ccd.Abbreviations('Symbol')
 
-    def print_this(self,func):
+        for col in Symbol.keys():
+            if self.Val['Iteration']==1:
+                self.dfOutputs.loc['min', Symbol[col]] = Unit[col]
+            self.dfOutputs.loc[self.Val['TIME'], Symbol[col]] = ccd.round_sig(self.Val[col],5)
+
+    def print_this(self,func,Get=False):
 
         if self.track:
-            Desc = CCD.Abbreviations('Description')
-            Unit = CCD.Abbreviations('Unit')
-            Eqn = CCD.Abbreviations('Equation')
+            Desc = ccd.Abbreviations('Description')
+            Unit = ccd.Abbreviations('Unit')
+            Eqn = ccd.Abbreviations('Equation')
 
-            printnsave('./', '\nCalculating '+func+' :\n')
-            if self.Val['Iteration']==1:
-                printnsave('./', '\n{}: {}'.format(func, Desc[func]))
-                printnsave('./', '\n{}'.format(Eqn[func]))
-            printnsave('./', '\n{} = {} {}'.format(func, self.Val[func], Unit[func]))
-    
-# if __name__ == '__main__':
+            if not Get:
 
-#     Files = {
-#         'tab': './temp/Dead Oil - Dulang 44 to 35C - OLGA tab - fixed format.tab',
-#         'wax': './temp/Dead Oil - DULANG 44 to 35C - OLGA WAX.wax',
-#         'xlsx': './temp/Dataset Level 1.xlsx'
-#     } 
+                printnsave('./', '\nCalculating '+func+' :')
+                if self.Val['Iteration']==1:
+                    printnsave('./', '{}: {}'.format(func, Desc[func]))
+                    printnsave('./', '{}'.format(Eqn[func]))
+                printnsave('./', '{} = {} {}'.format(func, self.Val[func], Unit[func]))
 
-#     Master(Files=Files)
+            else:
+                [] = func
+                printnsave('./', '\nGetting '+func+' :')
+                printnsave('./', '{} ')
+            
+
+if __name__ == '__main__':
+
+    Files = {
+        'tab': './temp/Dead Oil - Dulang 44 to 35C - OLGA tab - fixed format.tab',
+        'wax': './temp/Dead Oil - DULANG 44 to 35C - OLGA WAX.wax',
+        'xlsx': './temp/Dataset Level 1.xlsx'
+    } 
+
+    Master(Files=Files)
