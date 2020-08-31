@@ -11,7 +11,6 @@ import plotly.graph_objects as go
 import CC_AppModules as cca
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
 buttonstyle = {'padding': '0px 0px 0px 20px','display':'inline-block'}
 
 app.layout = html.Div([

@@ -35,7 +35,6 @@ def generate_table(df):
 def generate_plot(df, y):
 
     x_scat, y_scat = df.index.values[1:], df[y].values[1:]
-    # x_scat, y_scat = df.index.values, df[y].values
 
     layout = go.Layout(
         plot_bgcolor="#FFF",
@@ -162,37 +161,10 @@ def open_modal(app, modal, button_open, button_close):
             return not is_open
         return is_open
 
-def enable_printout(app):
-    @app.callback(
-        [Output('open-printout', 'disabled'), Output('printout-display', 'children')],
-        [Input('run-button', 'n_clicks'), Input('open-printout', 'n_clicks')],
-        [State('printout-checklist', 'value'),State('open-printout', 'disabled')]
-    )
-    def tick_printoout(run, click_open, tick, printout):
-        final_text = ''''''
-        if run:
-            if tick:
-                printout = False
-            else:
-                printout = True
-
-        if click_open:
-            text_markdown = '\t'
-            if os.path.isfile('./printout.txt'):
-                with open('./printout.txt') as handle:
-                    for line in handle.read():
-                        text_markdown += line
-                final_text = '''{}'''.format(text_markdown)
-
-        return printout, final_text
-
 def tabs_display(app):
     @app.callback(
         Output('tabs', 'children'),
-        [
-            Input('printout-checklist', 'value'),
-            Input('run-button', 'n_clicks')
-        ],
+        [Input('run-button', 'n_clicks')],
         [
             State('input-0', 'value'),
             State('input-1', 'value'),
@@ -204,7 +176,7 @@ def tabs_display(app):
             State('input-7', 'value')
         ]
     )
-    def toggle_run(tick, run, C1, C2, C3, DI, MO, PIO, TOI, DowMethod):
+    def toggle_run(run, C1, C2, C3, DI, MO, PIO, TOI, DowMethod):
         children = []
         if run:
 
@@ -229,8 +201,7 @@ def tabs_display(app):
                     float(MO), 
                     float(PIO), 
                     float(TOI), 
-                    DowMethod, 
-                    tick
+                    DowMethod
                 )
                 dfIO = L1.dfOutputs
                 fig1 = generate_plot(dfIO,'δ')
