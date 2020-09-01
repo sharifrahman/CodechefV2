@@ -463,6 +463,8 @@ def Find_DC_DT(P_Index, TEMP_Index, TEMP_Table, CWAX_Table, CWAX_Feed):
     return DC_DT
 
 def round_sig(x, sig=3):
+    if isinstance(x,np.ndarray):
+        x = x[0]
     try:
         return np.round(x, sig-int(math.floor(math.log10(abs(x))))-1)
     except:

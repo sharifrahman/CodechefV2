@@ -14,7 +14,7 @@ class Master():
         DowMethod = 'Wilke-Chang'
     ): 
         '''
-        Within this Class, we define four (5) Instance Variables:
+        Within this Class, we define five (5) Instance Variables:
 
             [1] Val         Dictionary that maps abbreviations to its corresponding values.
 
@@ -213,7 +213,7 @@ class Master():
             self.Val['RHOO'] = ccd.Get_Property(
                 self.Val['PIO_TABIndex'], self.Val['TOI_TABIndex'], self.Table['TAB_Properties']['RHOOW']
             )
-
+        
         elif var=='CWAXFEED':
             self.Val['CWAXFEED'] = sum(self.Table['WAX_Properties']['CWAXFEED'])
 

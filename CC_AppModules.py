@@ -1,6 +1,7 @@
 import os
 import glob
 import base64
+import pandas as pd
 import dash_html_components as html
 import plotly.graph_objects as go
 import dash_core_components as dcc
@@ -60,6 +61,10 @@ def generate_plot(df, y):
         data = go.Scatter(x=x_scat, y=y_scat, marker_color='darkslategray', mode='lines+markers'),
         layout = layout
     )
+    # if y=='dδ/dt':
+    #     fig.write_image('./output/Plot_dδdt.jpg')
+    # else:
+    #     fig.write_image('./output/Plot_{}.jpg'.format(y))
     return fig
 
 def input_parameters(index):
@@ -204,6 +209,7 @@ def tabs_display(app):
                     DowMethod
                 )
                 dfIO = L1.dfOutputs
+                dfIO.to_csv('./output/Output dataframe.csv')
                 fig1 = generate_plot(dfIO,'δ')
                 fig2 = generate_plot(dfIO,'Fw')
                 fig3 = generate_plot(dfIO,'dδ/dt')
