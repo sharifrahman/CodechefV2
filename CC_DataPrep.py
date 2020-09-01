@@ -2,7 +2,6 @@ import math
 import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata
-from printandsave import printnsave
 
 def Abbreviations(handle):
     Description = {

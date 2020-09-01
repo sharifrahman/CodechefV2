@@ -1,10 +1,8 @@
-from __future__ import print_function
 import os
 import math
 import numpy as np
 import pandas as pd
 import CC_DataPrep as ccd
-from printandsave import printnsave
 
 class Master():
 
@@ -280,13 +278,3 @@ class Master():
             if self.Val['Iteration']==1:
                 self.dfOutputs.loc['min', Symbol[col]] = Unit[col]
             self.dfOutputs.loc[self.Val['TIME'], Symbol[col]] = ccd.round_sig(self.Val[col],5)
-
-# if __name__ == '__main__':
-
-#     Files = {
-#         'tab': './temp/Dead Oil - Dulang 44 to 35C - OLGA tab - fixed format.tab',
-#         'wax': './temp/Dead Oil - DULANG 44 to 35C - OLGA WAX.wax',
-#         'xlsx': './temp/Dataset Level 1.xlsx'
-#     } 
-
-#     Master(Files=Files)

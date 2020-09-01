@@ -1,13 +1,13 @@
 import os
+import flask
+import webbrowser
 import socket
-import pandas as pd
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input
 import plotly.express as px
-import plotly.graph_objects as go
 import CC_AppModules as cca
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -15,7 +15,7 @@ buttonstyle = {'padding': '0px 0px 0px 20px','display':'inline-block'}
 
 app.layout = html.Div([
     html.Div([
-        html.Content(html.B('Code Chef Level 1'))],
+        html.Content(html.B('Team Citral Code Chef Level 1'))],
         style={
             'padding': '20px 0px 5px 20px',
             'background-color':'bisque',
@@ -27,6 +27,28 @@ app.layout = html.Div([
 
     html.Div(
         [
+            html.Div([
+                dbc.Button('Algorithm Info', 
+                    id='open-info', 
+                    style={'background-color':'darkslategray'}
+                ),
+                dbc.Modal([
+                    dbc.ModalHeader('Level 1 Algorithm'),
+                    dbc.ModalBody(
+                        html.Img(
+                            src=app.get_asset_url('algorithm.PNG')
+                        )
+                    ),
+                    dbc.ModalFooter(
+                        dbc.Button('Close', 
+                            id='close-info', className='ml-auto'
+                        )
+                    )
+                ], 
+                id='modal-info',size='xl')],
+                style=buttonstyle
+            ),
+            
             html.Div(
                 dcc.Upload(
                     id='files-upload', 
@@ -124,6 +146,7 @@ app.layout = html.Div([
 
 ])
 
+cca.open_modal(app, 'modal-info', 'open-info', 'close-info')
 cca.file_upload(app, 'files-upload', 'body-file-list')
 cca.open_modal(app, 'modal-file-list', 'open-file-list', 'close-file-list')
 cca.open_modal(app, 'modal-inputs', 'open-user-inputs', 'close-user-inputs')
@@ -131,6 +154,6 @@ cca.tabs_display(app)
 
 if __name__ == '__main__':
     hostname = socket.gethostname()
-    hostIP = socket.gethostbyname(hostname)
-    app.server.run(port=8080, host=hostIP)
-    # app.run_server(debug=True)
+    hostIP, hostport = socket.gethostbyname(hostname), 8080
+    webbrowser.open('http://{}:{}'.format(hostIP,hostport))
+    app.server.run(port=hostport, host=hostIP)
