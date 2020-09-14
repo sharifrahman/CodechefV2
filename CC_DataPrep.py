@@ -121,7 +121,7 @@ def Abbreviations(handle):
 def Get_File_Inputs(filepath, filetype):
     if filetype=='xlsx':
         ## We use pandas read_excel straight forward for excel input file :
-        dfIO = pd.read_excel(filepath, index_col=0, skiprows=[1])
+        dfIO = pd.read_excel(filepath, index_col=0)
         return dfIO
     else:
         ## For TAB and WAX files, LoadTextFiles function to convert textfile lines into list :
@@ -205,16 +205,16 @@ def LookFor_Properties(TextLines, File):
             PROP : i+1 
             for i, Line in enumerate(TextLines) 
             for PROP in [
-                'DENSITY','VISCOSITY'#,
-                # 'HEAT CAPACITY','THERMAL CONDUCTIVITY'
+                'DENSITY','VISCOSITY',
+                'HEAT CAPACITY','THERMAL CONDUCTIVITY'
             ] 
             if 'LIQUID '+PROP in Line
         }
         Abbrev = {
             'DENSITY' : 'RHOOW',
-            'VISCOSITY' : 'UOW'#,
-            # 'HEAT CAPACITY' : '',
-            # 'THERMAL CONDUCTIVITY' : ''
+            'VISCOSITY' : 'UOW',
+            'HEAT CAPACITY' : 'CPOW',
+            'THERMAL CONDUCTIVITY' : 'KOW'
         }
         '''
         We then create 3 tiers of nested dictionaries:
@@ -469,5 +469,14 @@ def round_sig(x, sig=3):
         return np.round(x, sig-int(math.floor(math.log10(abs(x))))-1)
     except:
         return np.round(x, sig)
-    
+
+def Get_Coolant_Property(TEMP_Index, Table):
+    [TIndex, TExact] = TEMP_Index
+
+    if TExact:
+        Value = Table[TIndex]
+    else:
+        Value = Interp_Property(Table, TIndex)
+    return Value
+
 
