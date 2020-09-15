@@ -7,43 +7,91 @@ import CC_DataPrep as ccd
 class Master():
 
     def __init__(
-        self, Files, PIO=101325
+        self, Files, Alpha_input='Alpha w', PIO=101325
     ): 
 
-        self.Val = {}
+        '''
+        We implement different strategy for Level 2: Using Python Lambda
+
+        Two (2) main instance variables:
+
+            [1] Val         Dictionary that maps abbreviations to its corresponding values.
+
+            [2] Table       Dictionary that maps Pressure, Temperature and corresponding Properties from 
+                            TAB and WAX files.
+
+         main class methods:
+
+            [1] Alpha_switcher  
+                - Switching between Alpha w and Alpha c
+
+            [2] Alpha_W and Alpha_C         
+                - Step by step equations under selected Alpha
+            
+            [3] Flow_switcher
+                - Switching between Laminar and Turbulent flow
+            
+            [4] Calc
+                - Switching between equations. All non-unique equations are placed here
+                using python lambda function.
+
+            [5] Get_Inputs
+                - Extracting table and variable values from input files.
+            
+            [6] Get_Val
+                - Acquiring variable values from:
+                [1] TAB file table data.
+                [2] Coolant excel file table data.
+                [3] Inputs excel file input data at given simulation time index.
+
+            [7] Save_outputs
+                - Saving outputs in pandas dataframe
+                - Final dataframe will be saved in ./output folder.
+            
+        '''
+        ## Converting the user defined input file names as instance variable list :
         self.Files = Files
-        self.Get_Table()
 
+        ## Reading from the TAB and excel files :
+        self.Get_Inputs()
+
+        ## Creating dfOutput empty dataframe :
+        self.dfOutputs = pd.DataFrame()
+
+        ## Initiating Val dictionary key and value :
+        self.Val = {'PIO':PIO}
+
+        ## Starting the iterative calculation :
         for Iteration, Time in enumerate(self.dfInputs.index.values):
-
+            self.Val['Iteration'] = Iteration + 1
             self.Val['TIME'] = Time
             self.Get_Val()
-            self.Alpha_switcher('ALPHA W')
-            self.Alpha_switcher('ALPHA C')
-        
-        # self.dfOutputs = pd.DataFrame()
-        # self.dfOutputs.index.name = 'TIME'
+            self.Alpha_switcher(Alpha_input)
+
+        self.dfOutputs.index.name = 'TIME'
+        self.dfOutputs.to_excel('./output/Output DF Level 2 {}.xlsx'.format(Alpha_input))
 
     
-    def Alpha_switcher(self, input):
+    def Alpha_switcher(self, alpha_input):
 
-        switcher = {
-            'ALPHA C': self.Alpha_C(),
-            'ALPHA W': self.Alpha_W()
-        }
-        return switcher.get(input, '-')
+        if alpha_input=='Alpha w':
+            self.Alpha_W()
+
+        elif alpha_input=='Alpha c':
+            self.Alpha_C()
     
     def Alpha_W(self):
 
-        self.Val['DH'] = self.Val['DI'] if self.Val['Time']==0 else self.Val['DW']
+        self.Val['DH'] = self.Val['DI'] if self.Val['TIME']==0 else self.Val['DW']
         self.Val['UO/UOW'] = self.Calc('UO/UOW')(self.Val['UO'],self.Val['UOW'])
-        self.Val['VOW'] = self.Calc('V')(self.Val['MO'],self.Val['RHOOW'],self.Val['DH'])
-        self.Val['RE'] = self.Calc('RE')(self.Val['RHOOW'], self.Val['VOW'], self.Val['DH'], self.Val['UOW'])
+        self.Val['VO'] = self.Calc('V')(self.Val['MO'],self.Val['RHOO'],self.Val['DH'])
+        self.Val['RE'] = self.Calc('RE')(self.Val['RHOOW'], self.Val['VO'], self.Val['DH'], self.Val['UOW'])
         self.Val['PR'] = self.Calc('PR')(self.Val['UOW'], self.Val['CPOW'], self.Val['KOW'])
         self.Val['L/DH'] = self.Calc('L/DH')(self.Val['L'], self.Val['DH'])
         self.Flow_switcher()
         self.Val['NUD'] = self.Val['NUFD']*(self.Val['UO/UOW']**0.11)
         self.Val['ALPHA W'] = self.Calc('ALPHA')(self.Val['NUD'], self.Val['DH'], self.Val['KOW'])
+        self.Save_outputs('Alpha w')
 
     def Alpha_C(self):
 
@@ -55,6 +103,7 @@ class Master():
         self.Flow_switcher()
         self.Val['NUD'] = self.Val['NUFD']
         self.Val['ALPHA C'] = self.Calc('ALPHA')(self.Val['NUD'], self.Val['DH'], self.Val['KC'])
+        self.Save_outputs('Alpha c')
 
     def Flow_switcher(self):
 
@@ -95,7 +144,7 @@ class Master():
         }
         return switcher.get(func, '-')
 
-    def Get_Table(self):
+    def Get_Inputs(self):
         
         P, TEMP, Properties = ccd.Get_File_Inputs(self.Files['tab'],'tab')
         self.Table = {
@@ -107,44 +156,51 @@ class Master():
         dfCoolant = ccd.Get_File_Inputs(self.Files['Coolant.xlsx'],'xlsx')
         self.Coolant = {
             col :{
-                i+1 : dfCoolant.loc[i,col]
+                i : dfCoolant.loc[i,col]
+                for i in dfCoolant.index
             }
             for col in dfCoolant.columns
-            for i in range(len(dfCoolant))
         }
 
     def Get_Val(self):
-    
+
+        for Var in self.dfInputs.columns:
+            self.Val[Var] = self.dfInputs.loc[self.Val['TIME'],Var]
+
         self.Val['PIO Index'] = ccd.P_TEMP_Index(self.Table['P'], self.Val['PIO'])
         self.Val['TO Index'] = ccd.P_TEMP_Index(self.Table['TEMP'], self.Val['TO'])
         self.Val['TW Index'] = ccd.P_TEMP_Index(self.Table['TEMP'], self.Val['TW'])
         self.Val['TC Index'] = ccd.P_TEMP_Index(self.Coolant['TEMP'], self.Val['TC'])
         
-        self.Val['UO'] = ccd.Get_Property(
-            self.Val['PIO Index'], self.Val['TO Index'], self.Table['Properties']['UOW']
-        )
+        for Var in ['UO','RHOO']:
+            self.Val[Var] = ccd.Get_Property(
+                self.Val['PIO Index'], self.Val['TO Index'], self.Table['Properties'][Var+'W']
+            )
         
         for Var in ['UOW', 'RHOOW', 'CPOW', 'KOW']:
             self.Val[Var] = ccd.Get_Property(
                 self.Val['PIO Index'], self.Val['TW Index'], self.Table['Properties'][Var]
             )
 
-        for Var in self.dfInputs.columns:
-            self.Val[Var] = self.dfInputs.loc[self.Val['TIME'],Var]
-
         for Var in ['RHOC', 'UC', 'CPC', 'KC']:
             self.Val[Var] = ccd.Get_Coolant_Property(
                 self.Val['TC Index'], self.Coolant[Var]
             )
+    
+    def Save_outputs(self, alpha_input):
+        switcher = {
+            'Alpha w': {'Unit':'UnitL2Aw', 'Symbol':'SymbolL2Aw'},
+            'Alpha c': {'Unit':'UnitL2Ac', 'Symbol':'SymbolL2Ac'}
+        }
 
-    # def Save_outputs(self):
-    #     Unit = ccd.Abbreviations('Unit')
-    #     Symbol = ccd.Abbreviations('Symbol')
+        Unit = ccd.Abbreviations(switcher[alpha_input]['Unit'])
+        Symbol = ccd.Abbreviations(switcher[alpha_input]['Symbol'])
 
-    #     for col in Symbol.keys():
-    #         if self.Val['Iteration']==1:
-    #             self.dfOutputs.loc['min', Symbol[col]] = Unit[col]
-    #         self.dfOutputs.loc[self.Val['TIME'], Symbol[col]] = ccd.round_sig(self.Val[col],5)
+        for col in Symbol.keys():
+            if self.Val['Iteration']==1:
+                self.dfOutputs.loc['min', Symbol[col]] = Unit[col]
+            self.dfOutputs.loc[self.Val['TIME'], Symbol[col]] = ccd.round_sig(self.Val[col],5)
+
 
 if __name__ == '__main__':
     

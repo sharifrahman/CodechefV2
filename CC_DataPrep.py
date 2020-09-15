@@ -4,119 +4,168 @@ import pandas as pd
 from scipy.interpolate import griddata
 
 def Abbreviations(handle):
-    Description = {
-        'DI' : 'Initial oil pipe diameter',
-        'DW' : 'Effective oil pipe diameter',
-        'PIO' : 'Inlet pressure of oil',
-        'TOI' : 'Inlet temperature of oil',
-        'QO' : 'Volumetric flow rate of oil',
-        'MO' : 'Mass flow rate of oil',
-        'RHOO' : 'Density of (liquid) oil at Toi',
-        'RHOOW' : 'Density of (liquid) oil at Tw',
-        'RHOWW' : 'Density of wax at Tw',
-        'UOW' : 'Viscosity of (liquid) oil at Tw',
-        'VO' : 'Velocity of oil',
-        'TW' : 'Wall or Oil/wax interface temperature',
-        'DELD' : '(Guessed) Thickness of wax deposit layer',
-        'NSR' : 'Reynold number of oil within deposit layer (evaluated at Tw)',
-        'REOW' : 'Reynold number of oil (evaluated at Tw)',
-        'FO' : 'Percentage (weight) of oil in the deposit',
-        'FW' : 'Percentage (weight) of solid wax in the deposit',
-        'PY1' : '',
-        'PY2' : '',
-        'DOW' : 'Diffusion rate of wax',
-        'DT_DR' : 'Temperature difference at pipe wall or oil/wax interface',
-        'MVWW' : 'Molar volume of wax',
-        'MWWW' : 'Molecular weight of wax at Tw',
-        'MWOW' : 'Molecular weight of (Liquid) oil at Tw',
-        'TIME' : 'Simulation time',
-        'CWAXFEED' : 'Concentration of total Wax in Feed',
-        'DC_DT' : 'Slope of wax percipitation curve at Tw',
-        'DDEL_DT' : 'Incremental increase of thickness of wax deposit layer',
-        'DELTA' : 'Total thickness of wax deposit layer'
-    }
-    Unit = {
-        'DI' : 'm',
-        'DW' : 'm',
-        'PIO' : 'Pa',
-        'TOI' : '°C',
-        'QO' : 'm³/s',
-        'MO' : 'kg/s',
-        'RHOO' : 'kg/m³',
-        'RHOOW' : 'kg/m³',
-        'RHOWW' : 'kg/m³',
-        'UOW' : 'Pa.s',
-        'VO' : 'm/s',
-        'TW' : 'degC',
-        'DELD' : 'm',
-        'NSR' : '',
-        'REOW' : '',
-        'FO' : '%',
-        'FW' : 'Frac.',
-        'PY1' : '',
-        'PY2' : '',
-        'DOW' : 'm²/s',
-        'DT_DR' : 'K/m',
-        'MWWW' : 'g/mol',
-        'MWOW' : 'g/mol',
-        'MVWW' : 'cm³/mol',
-        'TIME' : 'min',
-        'CWAXFEED' : 'mol/mol',
-        'DC_DT' : '',
-        'DDEL_DT' : 'mm',
-        'DELTA' : 'mm'
+    Abbrev = {
+        'DescriptionL1' : {
+            'DI' : 'Initial oil pipe diameter',
+            'DW' : 'Effective oil pipe diameter',
+            'PIO' : 'Inlet pressure of oil',
+            'TOI' : 'Inlet temperature of oil',
+            'QO' : 'Volumetric flow rate of oil',
+            'MO' : 'Mass flow rate of oil',
+            'RHOO' : 'Density of (liquid) oil at Toi',
+            'RHOOW' : 'Density of (liquid) oil at Tw',
+            'RHOWW' : 'Density of wax at Tw',
+            'UOW' : 'Viscosity of (liquid) oil at Tw',
+            'VO' : 'Velocity of oil',
+            'TW' : 'Wall or Oil/wax interface temperature',
+            'DELD' : '(Guessed) Thickness of wax deposit layer',
+            'NSR' : 'Reynold number of oil within deposit layer (evaluated at Tw)',
+            'REOW' : 'Reynold number of oil (evaluated at Tw)',
+            'FO' : 'Percentage (weight) of oil in the deposit',
+            'FW' : 'Percentage (weight) of solid wax in the deposit',
+            'PY1' : '',
+            'PY2' : '',
+            'DOW' : 'Diffusion rate of wax',
+            'DT_DR' : 'Temperature difference at pipe wall or oil/wax interface',
+            'MVWW' : 'Molar volume of wax',
+            'MWWW' : 'Molecular weight of wax at Tw',
+            'MWOW' : 'Molecular weight of (Liquid) oil at Tw',
+            'TIME' : 'Simulation time',
+            'CWAXFEED' : 'Concentration of total Wax in Feed',
+            'DC_DT' : 'Slope of wax percipitation curve at Tw',
+            'DDEL_DT' : 'Incremental increase of thickness of wax deposit layer',
+            'DELTA' : 'Total thickness of wax deposit layer'
+        },
+
+        'EquationL1' : {
+            'VO' : 'Qo = mo / ρo \nVo = Qo / (π x dw/2)²',
+            'DELD' : 'δd = 0.5 x (di-dw)',
+            'NSR' : 'Nsr = (ρow x Vo x δd)/μow',
+            'REOW' : 'Reow = (ρow x Vo x δd)/μow',
+            'FO' : 'Fo = 100 x (1-((Reow ^ 0.15)/8))',
+            'FW' : 'Fw = 1 - Fo/100',
+            'PY1' : 'π1 = C1 / (1-(Fo/100))',
+            'PY2' : 'π2 = C2 x (Nsr ^ C3)',
+            'DOW' : '',
+            'MVWW' : 'MVww = MWww / ρww',
+            'DDEL_DT' : 'dδ/dt = (π1 / (1+π2)) x Dow x (dC/dT x dT/dr)',
+            'DELTA' : 'δ = δt-1 + (dδ/dt x dt)'
+        },
+
+        'SymbolL1' : {
+            'TIME' : 'Time',
+            'TW' : 'Tw',
+            'DW' : 'dw',
+            'DT_DR' : 'dT/dr',
+            'RHOO' : 'ρo',
+            'QO' : 'Qo',
+            'VO' : 'Vo',
+            'DELD' : 'δd',
+            'RHOOW' : 'ρow',
+            'UOW' : 'μow',
+            'REOW' : 'Reow',
+            'FO' : 'Fo',
+            'FW' : 'Fw',
+            'NSR' : 'Nsr',
+            'MWWW' : 'MWww',
+            'RHOWW' : 'ρww',
+            'MVWW' : 'MVww',
+            'PY1' : 'π1',
+            'PY2' : 'π2',
+            'DOW' : 'Dow',
+            'DC_DT' : 'dC/dT',
+            'DDEL_DT' : 'dδ/dt',
+            'DELTA' : 'δ'
+        },
+
+        'UnitL1' : {
+            'DI' : 'm',
+            'DW' : 'm',
+            'PIO' : 'Pa',
+            'TOI' : '°C',
+            'QO' : 'm³/s',
+            'MO' : 'kg/s',
+            'RHOO' : 'kg/m³',
+            'RHOOW' : 'kg/m³',
+            'RHOWW' : 'kg/m³',
+            'UOW' : 'Pa.s',
+            'VO' : 'm/s',
+            'TW' : 'degC',
+            'DELD' : 'm',
+            'NSR' : '',
+            'REOW' : '',
+            'FO' : '%',
+            'FW' : 'Frac.',
+            'PY1' : '',
+            'PY2' : '',
+            'DOW' : 'm²/s',
+            'DT_DR' : 'K/m',
+            'MWWW' : 'g/mol',
+            'MWOW' : 'g/mol',
+            'MVWW' : 'cm³/mol',
+            'TIME' : 'min',
+            'CWAXFEED' : 'mol/mol',
+            'DC_DT' : '',
+            'DDEL_DT' : 'mm',
+            'DELTA' : 'mm'
+        },
+
+        'SymbolL2Aw' : {
+            'TIME' : 'Time',
+            'DH':'dh',
+            'UO/UOW':'μo/μow',
+            'RE':'Reo',
+            'PR':'Pro',
+            'L/DH':'L/dh',
+            'F':'fo',
+            'NUFD1':'NuFD,1',
+            'NUFD':'NuFD',
+            'NUD':'NuD',
+            'ALPHA W': 'ɑw'
+        },
+
+        'UnitL2Aw' : {
+            'TIME' : 'm',
+            'DH':'m',
+            'UO/UOW':'',
+            'RE':'',
+            'PR':'',
+            'L/DH':'',
+            'F':'',
+            'NUFD1':'',
+            'NUFD':'',
+            'NUD':'',
+            'ALPHA W': 'W/m²K'
+        },
+
+        'SymbolL2Ac' : {
+            'TIME' : 'Time',
+            'DH':'dh',
+            'RE':'Rec',
+            'PR':'Prc',
+            'L/DH':'L/dh',
+            'F':'fc',
+            'NUFD1':'NuFD,1',
+            'NUFD':'NuFD',
+            'NUD':'NuD',
+            'ALPHA C': 'ɑc'
+        },
+
+        'UnitL2Ac' : {
+            'TIME' : 'min',
+            'DH':'m',
+            'RE':'',
+            'PR':'',
+            'L/DH':'',
+            'F':'',
+            'NUFD1':'',
+            'NUFD':'',
+            'NUD':'',
+            'ALPHA C': 'W/m²K'
+        },
     }
 
-    Equation = {
-        'VO' : 'Qo = mo / ρo \nVo = Qo / (π x dw/2)²',
-        'DELD' : 'δd = 0.5 x (di-dw)',
-        'NSR' : 'Nsr = (ρow x Vo x δd)/μow',
-        'REOW' : 'Reow = (ρow x Vo x δd)/μow',
-        'FO' : 'Fo = 100 x (1-((Reow ^ 0.15)/8))',
-        'FW' : 'Fw = 1 - Fo/100',
-        'PY1' : 'π1 = C1 / (1-(Fo/100))',
-        'PY2' : 'π2 = C2 x (Nsr ^ C3)',
-        'DOW' : '',
-        'MVWW' : 'MVww = MWww / ρww',
-        'DDEL_DT' : 'dδ/dt = (π1 / (1+π2)) x Dow x (dC/dT x dT/dr)',
-        'DELTA' : 'δ = δt-1 + (dδ/dt x dt)'
-    }
-
-    Symbol = {
-        'TIME' : 'Time',
-        'TW' : 'Tw',
-        'DW' : 'dw',
-        'DT_DR' : 'dT/dr',
-        'RHOO' : 'ρo',
-        'QO' : 'Qo',
-        'VO' : 'Vo',
-        'DELD' : 'δd',
-        'RHOOW' : 'ρow',
-        'UOW' : 'μow',
-        'REOW' : 'Reow',
-        'FO' : 'Fo',
-        'FW' : 'Fw',
-        'NSR' : 'Nsr',
-        'MWWW' : 'MWww',
-        'RHOWW' : 'ρww',
-        'MVWW' : 'MVww',
-        'PY1' : 'π1',
-        'PY2' : 'π2',
-        'DOW' : 'Dow',
-        'DC_DT' : 'dC/dT',
-        'DDEL_DT' : 'dδ/dt',
-        'DELTA' : 'δ'
-    }
-
-
-    if handle=='Description':
-        return Description
-    elif handle=='Unit':
-        return Unit
-    elif handle=='Equation':
-        return Equation
-    elif handle=='Symbol':
-        return Symbol
+    return Abbrev.get(handle, '-')
 
 def Get_File_Inputs(filepath, filetype):
     if filetype=='xlsx':

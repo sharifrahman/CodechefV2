@@ -8,14 +8,14 @@ import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input
 import plotly.express as px
-import CC_AppModules_L1 as cca
+import CC_AppModules_L2 as cca
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 buttonstyle = {'padding': '0px 0px 0px 20px','display':'inline-block'}
 
 app.layout = html.Div([
     html.Div([
-        html.Content(html.B('Team Citral Code Chef Level 1'))],
+        html.Content(html.B('Team Citral Code Chef Level 2'))],
         style={
             'padding': '20px 0px 5px 20px',
             'background-color':'bisque',
@@ -27,33 +27,12 @@ app.layout = html.Div([
 
     html.Div(
         [
-            html.Div([
-                dbc.Button('Algorithm Info', 
-                    id='open-info', 
-                    style={'background-color':'darkslategray'}
-                ),
-                dbc.Modal([
-                    dbc.ModalHeader('Level 1 Algorithm'),
-                    dbc.ModalBody(
-                        html.Img(
-                            src=app.get_asset_url('algorithm.PNG')
-                        )
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button('Close', 
-                            id='close-info', className='ml-auto'
-                        )
-                    )
-                ], 
-                id='modal-info',size='xl')],
-                style=buttonstyle
-            ),
             
             html.Div(
                 dcc.Upload(
                     id='files-upload', 
                     children=dbc.Button(
-                        'Select TAB, WAX & Dataset Files',
+                        'Select TAB & Dataset (Input & Coolant) Files',
                         style={'background-color':'darkslategray'}
                     ),
                     multiple=True
@@ -93,12 +72,6 @@ app.layout = html.Div([
                     ),
                     cca.input_parameters(0),
                     cca.input_parameters(1),
-                    cca.input_parameters(2),
-                    cca.input_parameters(3),
-                    cca.input_parameters(4),
-                    cca.input_parameters(5),
-                    cca.input_parameters(6),
-                    cca.input_parameters(7),
                     dbc.ModalFooter(
                         dbc.Button(
                             'Close', id='close-user-inputs', className='ml-auto'
@@ -146,7 +119,6 @@ app.layout = html.Div([
 
 ])
 
-cca.open_modal(app, 'modal-info', 'open-info', 'close-info')
 cca.file_upload(app, 'files-upload', 'body-file-list')
 cca.open_modal(app, 'modal-file-list', 'open-file-list', 'close-file-list')
 cca.open_modal(app, 'modal-inputs', 'open-user-inputs', 'close-user-inputs')
