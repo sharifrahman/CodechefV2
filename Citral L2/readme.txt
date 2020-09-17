@@ -19,14 +19,16 @@ Run instructions:
 
 1. Simply double-click "CitralCodeChefL2.bat". This program will run on your preferred internet browser.
 
-2. 'SELECT TAB & DATASET (INPUT & COOLANT) FILES' : Select all 3 input files:
+2. 'ALGORITHM INFO' : View brief info on Wax Loop algorithm Level 2
+
+3. 'SELECT TAB & DATASET (INPUT & COOLANT) FILES' : Select all 3 input files:
 	- Dataset Level 2 Coolant.xlsx
 	- Dataset Level 2 Inputs.xlsx
 	- Dead Oil - Dulang 44 to 35C - OLGA tab - fixed format.tab
 	This step is compulsory.
 
-3. 'UPLOADED FILE LIST' : Double check the list of uploaded files.
+4. 'UPLOADED FILE LIST' : Double check the list of uploaded files.
 
-4. 'OPEN USER DEFINED INPUTS' : User can modify the Input Pressure and select alpha from the 'dropdown menu'.
+5. 'OPEN USER DEFINED INPUTS' : User can modify the Input Pressure and select alpha from the 'dropdown menu'.
 
-5. Click 'RUN' to start calculation and show results. 
+6. Click 'RUN' to start calculation and show results. 
